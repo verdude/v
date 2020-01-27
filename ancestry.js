@@ -15,9 +15,22 @@ Vue.component("parent", {
   props: {
     asdf: Number
   },
+  methods: {
+    updateNum: function(e) {
+      console.log(e);
+      this.$emit("update:asdf", e);
+    }
+  },
   template: `
-    <grand-child v-model.sync="asdf"></grand-child>
+    <grand-child v-bind:asdf.sync="asdf"></grand-child>
   `
+});
+
+Vue.component("grand-parent", {
+  props: {
+    asdf: Number
+  },
+  template: `<parent v-bind:asdf.sync="asdf"></parent>`
 });
 
 new Vue({
@@ -28,14 +41,7 @@ new Vue({
   template: `
     <div>
       <h1>Test</h1>
-      <grand-child v-bind:asdf.sync="num"></grand-child>
+      <grand-parent v-bind:asdf.sync="num"></grand-parent>
     </div>
   `
-});
-
-Vue.component("grand-parent", {
-  data: {
-
-  },
-  template: ``
 });
